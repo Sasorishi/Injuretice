@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "line-2d-cartoon-vector-illustration-white-background_889056-26113.jpeg",
+      "filename" : "line-2d-cartoon-vector-illustration-white-background_889056-26113 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -17,5 +17,8 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

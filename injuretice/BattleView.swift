@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-func spawnEnemy(maxLevel: Int) -> Enemy {
-    let randomEnemy = generateRandomEnemy(maxLevel: maxLevel)
-    return randomEnemy
+func spawnEnemy(maxLevel: Int) async -> Enemy {
+    let enemy = await generateRandomEnemy(maxLevel: maxLevel)
+    print(enemy.name)
+    return enemy
 }
 
 func battle(enemyHealth: Int, playerHealth: Int) -> Bool {
@@ -21,17 +22,18 @@ func battle(enemyHealth: Int, playerHealth: Int) -> Bool {
 
 struct BattleView: View {
     @Binding var player: Character?
-    let enemy: Enemy
+
     @State private var enemyCurrentHealth: Int
     @State private var playerCurrentHealth: Int
     @State private var isBattleOver: Bool = false
     @State private var combatLog: String = ""
+    
+    @State private var enemy: Enemy?
 
     init(player: Binding<Character?>) {
         self._player = player
-        self.enemy = spawnEnemy(maxLevel: 20)
-        _enemyCurrentHealth = State(initialValue: enemy.health)
-        _playerCurrentHealth = State(initialValue: player.wrappedValue? .health ?? 0)
+        self._enemyCurrentHealth = State(initialValue: 0)
+        self._playerCurrentHealth = State(initialValue: player.wrappedValue?.health ?? 0)
     }
 
     var body: some View {
@@ -39,11 +41,11 @@ struct BattleView: View {
             VStack {
                 HStack {
                     Text("Ennemi")
-                    Text("\(enemy.name) - niveau \(enemy.level)")
+                    Text("\(enemy?.name ?? "Unknown") - niveau \(enemy?.level ?? 0)")
                 }
                 HStack {
                     Text("Point de vie")
-                    Text("\(enemyCurrentHealth) / \(enemy.health)")
+                    Text("\(enemyCurrentHealth) / \(enemy?.health ?? 0)")
                 }
 
                 Spacer()
@@ -60,7 +62,6 @@ struct BattleView: View {
                     VStack {
                         List(player?.skills ?? []) { skill in
                             Button(action: {
-                                // Logique pour exécuter la compétence ici
                                 performSkill(skill)
                             }) {
                                 HStack {
@@ -77,28 +78,37 @@ struct BattleView: View {
                         .listStyle(PlainListStyle())
                     }
                 }
-
-                // Animation d'attaque
-                // ...
-
-                // Barres de santé
-                // ...
-
-                // Texte d'état
-                Text(combatLog)
-                    .padding()
-                    .foregroundColor(.black)
-
+                
+                Section(header: Text("Combat log")) {
+                    ScrollView {
+                        VStack {
+                            Text(combatLog)
+                                .padding()
+                                .foregroundColor(.black)
+                        }
+                        .padding(12)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(red: 211 / 255, green: 217 / 255, blue: 212 / 255))
+                    }
+                }
+                
                 // Options de fuite
                 // ...
             }
         }
         .onAppear {
-            // Logique d'initialisation du combat
+            Task {
+                do {
+                    self.enemy = try await generateRandomEnemy(maxLevel: 20)
+                    self.enemyCurrentHealth = self.enemy?.health ?? 0
+                    self.playerCurrentHealth = self.player?.health ?? 0
+                } catch {
+                    print("Error generating enemy: \(error)")
+                }
+            }
             combatLog += " ---- Combat commencé ! ---- \n\n"
         }
         .onChange(of: enemyCurrentHealth) { _ in
-            // Logique pour vérifier si le combat doit continuer
             if !battle(enemyHealth: enemyCurrentHealth, playerHealth: playerCurrentHealth) {
                 combatLog += "---- Combat terminé ! ---- \n\n"
                 isBattleOver = true
@@ -108,7 +118,7 @@ struct BattleView: View {
     
     private func performSkill(_ skill: Skill) {
         enemyCurrentHealth -= skill.damage
-        combatLog += "\(player?.name ?? "Inconnu") utilise \(skill.name) et inflige \(skill.damage) dégâts à \(enemy.name). \n"
-        combatLog += "\(enemy.name) a maintenant \(enemyCurrentHealth) / \(enemy.health) points de vie.\n\n"
+        combatLog += "\(player?.name ?? "Inconnu") utilise \(skill.name) et inflige \(skill.damage) dégâts à \(enemy?.name). \n"
+        combatLog += "\(enemy?.name) a maintenant \(enemyCurrentHealth) / \(enemy?.health) points de vie.\n\n"
     }
 }

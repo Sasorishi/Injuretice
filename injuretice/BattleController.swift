@@ -5,10 +5,21 @@
 //  Created by Alban On on 21/11/2023.
 //
 
-func generateRandomEnemy(maxLevel: Int) -> Enemy {
-    let names = ["Goblin", "Orc", "Skeleton", "Spider", "Troll", "Dragon"]
-    let randomName = names.randomElement() ?? "Unknown Enemy"
+func generateRandomEnemy(maxLevel: Int) async -> Enemy {
+    var randomName: String = ""
 
+    do {
+        let randomUserResponse = try await fetchRandomName()
+        if let firstUser = randomUserResponse.results.first {
+            randomName = "\(firstUser.name.first) \(firstUser.name.last)"
+//            print(randomName)
+        } else {
+            print("Failed to fetch random name.")
+        }
+    } catch {
+        print("Error fetching random name: \(error)")
+    }
+    
     let randomLevel = Int.random(in: 1...maxLevel)
 
     let randomSkills: [Skill] = (0..<3).map { index in

@@ -33,13 +33,21 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Apparence du personnage").font(.headline).textCase(nil)
+                Section(header: Text("Apparence du personnage")
+                    .padding([.bottom, .trailing], 10)
+                    .font(.headline)
+                    .textCase(nil)
                     .multilineTextAlignment(.center)) {
                     SelectAppareance(images: imageNames)
-                        .frame(height: 150).background(selectedColor)
+                        .listRowInsets(EdgeInsets())
+                        .frame(height: 250)
+                        .background(selectedColor)
                 }
                 
-                Section(header: Text("Informations").font(.headline).textCase(nil)
+                Section(header: Text("Informations")
+                    .padding([.bottom, .trailing], 10)
+                    .font(.headline)
+                    .textCase(nil)
                     .multilineTextAlignment(.center)) {
                     TextField("Entre ton nom", text: $username)
                     Stepper(value: $age, in: 1...50) {

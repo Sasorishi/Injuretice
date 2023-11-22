@@ -14,6 +14,8 @@
 		E84CD1EE2B0CA1C500D94502 /* SkillCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84CD1ED2B0CA1C500D94502 /* SkillCreationView.swift */; };
 		E84CD1F02B0CAA3900D94502 /* EnemyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84CD1EF2B0CAA3900D94502 /* EnemyModel.swift */; };
 		E84CD1F22B0CAA7400D94502 /* BattleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84CD1F12B0CAA7400D94502 /* BattleController.swift */; };
+		E85238D52B0E1F6B004CB57D /* RandomUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85238D42B0E1F6B004CB57D /* RandomUser.swift */; };
+		E85238D72B0E20B3004CB57D /* GeneratorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85238D62B0E20B3004CB57D /* GeneratorController.swift */; };
 		E8E44BEF2B0B9456009159B4 /* injureticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E44BEE2B0B9456009159B4 /* injureticeApp.swift */; };
 		E8E44BF12B0B9456009159B4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E44BF02B0B9456009159B4 /* ContentView.swift */; };
 		E8E44BF32B0B9459009159B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8E44BF22B0B9459009159B4 /* Assets.xcassets */; };
@@ -28,6 +30,8 @@
 		E84CD1ED2B0CA1C500D94502 /* SkillCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillCreationView.swift; sourceTree = "<group>"; };
 		E84CD1EF2B0CAA3900D94502 /* EnemyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyModel.swift; sourceTree = "<group>"; };
 		E84CD1F12B0CAA7400D94502 /* BattleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleController.swift; sourceTree = "<group>"; };
+		E85238D42B0E1F6B004CB57D /* RandomUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomUser.swift; sourceTree = "<group>"; };
+		E85238D62B0E20B3004CB57D /* GeneratorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorController.swift; sourceTree = "<group>"; };
 		E8E44BEB2B0B9456009159B4 /* injuretice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = injuretice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8E44BEE2B0B9456009159B4 /* injureticeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = injureticeApp.swift; sourceTree = "<group>"; };
 		E8E44BF02B0B9456009159B4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,8 +75,10 @@
 				E84CD1E72B0C9DC500D94502 /* SelectAppareanceView.swift */,
 				E84CD1E92B0C9DD400D94502 /* CharacterModel.swift */,
 				E84CD1EB2B0CA06200D94502 /* SkillModel.swift */,
+				E85238D42B0E1F6B004CB57D /* RandomUser.swift */,
 				E84CD1ED2B0CA1C500D94502 /* SkillCreationView.swift */,
 				E84CD1EF2B0CAA3900D94502 /* EnemyModel.swift */,
+				E85238D62B0E20B3004CB57D /* GeneratorController.swift */,
 				E84CD1F12B0CAA7400D94502 /* BattleController.swift */,
 				E8E44BF22B0B9459009159B4 /* Assets.xcassets */,
 				E8E44BF42B0B9459009159B4 /* Preview Content */,
@@ -158,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E85238D72B0E20B3004CB57D /* GeneratorController.swift in Sources */,
 				E84CD1E82B0C9DC500D94502 /* SelectAppareanceView.swift in Sources */,
 				E84CD1EA2B0C9DD400D94502 /* CharacterModel.swift in Sources */,
 				E84CD1F22B0CAA7400D94502 /* BattleController.swift in Sources */,
@@ -167,6 +174,7 @@
 				E84CD1E62B0C9DB000D94502 /* BattleView.swift in Sources */,
 				E8E44BEF2B0B9456009159B4 /* injureticeApp.swift in Sources */,
 				E84CD1EC2B0CA06200D94502 /* SkillModel.swift in Sources */,
+				E85238D52B0E1F6B004CB57D /* RandomUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

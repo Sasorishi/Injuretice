@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-func createCharacter(appareance: String, username: String, age: Int, jobname: String, skills: [Skill], color: Color) -> Character {
+func allParametersFilled(username: String, age: Int, jobname: String) -> Bool {
+    return !username.isEmpty && age > 0 && !jobname.isEmpty
+}
+
+func createCharacter(appareance: String, username: String, age: Int, jobname: String, skills: [Skill], color: Color) -> Character? {
     let player = Character(appareance: appareance, name: username, age: age, job: jobname, skills: skills, color: color)
     print(player)
     return player
@@ -24,6 +28,7 @@ struct ContentView: View {
     @State private var isShowingSkillCreationView = false
     @State private var characterSkills: [Skill] = []
     @State private var player: Character?
+    @State private var isNavigationActive: Bool = false
     
     var body: some View {
         NavigationView {
@@ -52,15 +57,35 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    NavigationLink(destination: BattleView(player: $player)) {
-                        Button("Combattre") {
-                            appareance = SelectAppareance(images: imageNames).getSelectedValue()
-                            player = createCharacter(appareance: appareance, username: username, age: age, jobname: jobname, skills: characterSkills, color: selectedColor)
+                    VStack {
+                        Button(action: {
+                            if allParametersFilled(username: username, age: age, jobname: jobname) {
+                                if let newPlayer = createCharacter(appareance: appareance, username: username, age: age, jobname: jobname, skills: characterSkills, color: selectedColor) {
+                                    player = newPlayer
+                                    print("Player created successfully")
+                                    isNavigationActive = true  // Trigger navigation
+                                } else {
+                                    print("Failed to create a character")
+                                }
+                            }
+                        }) {
+                            Text("Combattre")
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .multilineTextAlignment(.center)
                         }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(.black)
                     }
-                }
+                    .disabled(!allParametersFilled(username: username, age: age, jobname: jobname))
+                    .background(
+                        NavigationLink(
+                            destination: BattleView(player: $player),
+                            isActive: $isNavigationActive
+                        ) {
+                            EmptyView()
+                        }
+                        .hidden()
+                    )
+                }.background(allParametersFilled(username: username, age: age, jobname: jobname) ? .clear : .gray)
             }
             .background(Color(red: 110, green: 143, blue: 195))
             .navigationBarTitle("Création de personnage", displayMode: .inline)

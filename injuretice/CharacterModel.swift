@@ -12,7 +12,7 @@ struct Character {
     let name: String
     let age: Int
     let job: String
-    let health: Int = 100
+    var health: Int = 100
     let level: Int = 1
     let experience: Double = 0.0
     let skills: [Skill]

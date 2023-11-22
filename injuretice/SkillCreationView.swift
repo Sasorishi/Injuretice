@@ -12,6 +12,8 @@ struct SkillCreationView: View {
     @State private var skillName = ""
     @State private var skillDamage = 0
     @State private var selectedSkillType: Skill.SkillType = .attack
+    @State private var isEditing = false
+    @State private var editingIndex = 0
     
     var body: some View {
         Form {
@@ -40,11 +42,20 @@ struct SkillCreationView: View {
                     }
                     
                     Button("Ajouter la compétence") {
-                        let newSkill = Skill(name: skillName, damage: skillDamage, type: selectedSkillType)
-                        skills.append(newSkill)
+                        if skills.count < 4 {
+                            let newSkill = Skill(name: skillName, damage: skillDamage, type: selectedSkillType)
 
-                        skillName = ""
-                        skillDamage = 0
+                            if isEditing {
+                                skills[editingIndex] = newSkill
+                                resetFields()
+                            } else {
+                                skills.append(newSkill)
+                            }
+
+                            resetFields()
+                        } else {
+                            print("Limite de 4 compétences atteinte.")
+                        }
                     }
                     .padding()
                     .foregroundColor(Color.white)
@@ -67,11 +78,30 @@ struct SkillCreationView: View {
                         }
                         
                         Text("\(skills[index].name) - \(skills[index].type == .attack ? "Dégâts" : "Défense") : \(skills[index].damage)")
-
-                        Button("Supprimer") {
-                            skills.remove(at: index)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            isEditing = true
+                            editingIndex = index
+                            skillName = skills[index].name
+                            skillDamage = skills[index].damage
+                            selectedSkillType = skills[index].type
+                        }) {
+                            Image("edit")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.blue)
                         }
-                        .foregroundColor(Color.red)
+
+                        Button(action: {
+                            skills.remove(at: index)
+                        }) {
+                            Image("bin")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.red)
+                        }
                     }
                     .padding()
                 }
@@ -79,5 +109,13 @@ struct SkillCreationView: View {
         }
         .background(Color(red: 255, green: 255, blue: 255))
         .navigationBarTitle("Création de compétence", displayMode: .inline)
+    }
+    
+    private func resetFields() {
+        isEditing = false
+        editingIndex = 0
+        skillName = ""
+        skillDamage = 0
+        selectedSkillType = .attack
     }
 }

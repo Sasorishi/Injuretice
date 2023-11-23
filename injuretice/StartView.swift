@@ -12,7 +12,7 @@ struct StartView: View {
         NavigationView {            
             Section {
                 VStack {
-                    NavigationLink(destination: ContentView()) {
+                    NavigationLink(destination: ContentView().navigationBarBackButtonHidden(true)) {
                         VStack {
                             Text("Jouer")
                             .foregroundColor(.white)
@@ -25,7 +25,7 @@ struct StartView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
 
-                    NavigationLink(destination: Text("Autre écran")) {
+                    NavigationLink(destination: Text("Au revoir").navigationBarBackButtonHidden(true)) {
                         VStack {
                             Text("Quitter")
                             .foregroundColor(.white)

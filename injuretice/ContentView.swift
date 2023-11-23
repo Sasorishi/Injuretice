@@ -14,7 +14,7 @@ func allParametersFilled(username: String, age: Int, jobname: String) -> Bool {
 func createCharacter(appareance: String, username: String, age: Int, jobname: String, skills: [Skill], color: Color) -> Character? {
     let player = Character(appareance: appareance, name: username, age: age, job: jobname, skills: skills, color: color)
     
-//    addPlayerToFirestore(player)
+    addPlayerToFirestore(player)
     
     print(player)
     return player
@@ -89,7 +89,7 @@ struct ContentView: View {
                     .disabled(!allParametersFilled(username: username, age: age, jobname: jobname))
                     .background(
                         NavigationLink(
-                            destination: BattleView(player: $player),
+                            destination: BattleView(player: $player).navigationBarBackButtonHidden(true),
                             isActive: $isNavigationActive
                         ) {
                             EmptyView()
@@ -107,6 +107,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        StartView()
+        ContentView()
     }
 }

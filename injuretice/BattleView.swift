@@ -27,8 +27,9 @@ struct BattleView: View {
     @State private var playerCurrentHealth: Int
     @State private var isBattleOver: Bool = false
     @State private var combatLog: String = ""
-    
     @State private var enemy: Enemy?
+    
+    @Environment(\.presentationMode) var presentationMode
 
     init(player: Binding<Character?>) {
         self._player = player
@@ -40,6 +41,10 @@ struct BattleView: View {
         NavigationView {
             VStack {
                 HStack {
+                    NavigationLink(destination: EnemyDetailView(enemy: $enemy)) {
+                        Image(systemName: "info.circle")
+                            .foregroundColor(.blue)
+                    }
                     Text("Ennemi")
                     Text("\(enemy?.name ?? "Unknown") - niveau \(enemy?.level ?? 0)")
                 }
@@ -51,6 +56,12 @@ struct BattleView: View {
                 Spacer()
 
                 HStack {
+                    NavigationLink(destination: PlayerDetailView(player: $player)) {
+                        Image(systemName: "info.circle")
+                            .foregroundColor(.blue)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
                     Text("\(player?.name ?? "Inconnu") - niveau \(player?.level ?? 0)")
                 }
                 HStack {
@@ -91,9 +102,9 @@ struct BattleView: View {
                         .background(Color(red: 211 / 255, green: 217 / 255, blue: 212 / 255))
                     }
                 }
-                
-                // Options de fuite
-                // ...
+                .navigationBarItems(trailing: Button(action: endBattle) {
+                    Text("Quitter le combat")
+                })
             }
         }
         .onAppear {
@@ -120,5 +131,15 @@ struct BattleView: View {
         enemyCurrentHealth -= skill.damage
         combatLog += "\(player?.name ?? "Inconnu") utilise \(skill.name) et inflige \(skill.damage) dégâts à \(enemy?.name). \n"
         combatLog += "\(enemy?.name) a maintenant \(enemyCurrentHealth) / \(enemy?.health) points de vie.\n\n"
+    }
+    
+    var endBattleButton: some View {
+        Button("Quitter le combat") {
+            endBattle()
+        }
+    }
+    
+    private func endBattle() {
+        presentationMode.wrappedValue.dismiss()
     }
 }

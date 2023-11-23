@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SelectAppareance: View {
-    let images: [String] // Remplacez [String] par le type de vos images
-    @State private var selectedIndex = 0
+    let images: [String]
+    @Binding var selectedIndex: Int
 
     var body: some View {
             TabView(selection: $selectedIndex) {
@@ -25,6 +25,10 @@ struct SelectAppareance: View {
             }
             .tabViewStyle(PageTabViewStyle())
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+            .onChange(of: selectedIndex) { newIndex in
+                print("Selected index changed to \(newIndex)")
+                selectedIndex = newIndex
+            }
         }
     
     func getSelectedValue() -> String {

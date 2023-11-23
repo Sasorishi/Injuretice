@@ -13,6 +13,9 @@ func allParametersFilled(username: String, age: Int, jobname: String) -> Bool {
 
 func createCharacter(appareance: String, username: String, age: Int, jobname: String, skills: [Skill], color: Color) -> Character? {
     let player = Character(appareance: appareance, name: username, age: age, job: jobname, skills: skills, color: color)
+    
+//    addPlayerToFirestore(player)
+    
     print(player)
     return player
 }
@@ -20,7 +23,7 @@ func createCharacter(appareance: String, username: String, age: Int, jobname: St
 struct ContentView: View {
     let imageNames = ["girl-1", "boy-1", "boy-2", "boy-3", "boy-4"]
 
-    @State private var appareance: String = ""
+    @State private var appareance: Int = 0
     @State private var username: String = ""
     @State private var age: Int = 0
     @State private var jobname: String = ""
@@ -38,7 +41,7 @@ struct ContentView: View {
                     .font(.headline)
                     .textCase(nil)
                     .multilineTextAlignment(.center)) {
-                    SelectAppareance(images: imageNames)
+                    SelectAppareance(images: imageNames, selectedIndex: $appareance)
                         .listRowInsets(EdgeInsets())
                         .frame(height: 250)
                         .background(selectedColor)
@@ -68,7 +71,7 @@ struct ContentView: View {
                     VStack {
                         Button(action: {
                             if allParametersFilled(username: username, age: age, jobname: jobname) {
-                                if let newPlayer = createCharacter(appareance: appareance, username: username, age: age, jobname: jobname, skills: characterSkills, color: selectedColor) {
+                                if let newPlayer = createCharacter(appareance: imageNames[appareance], username: username, age: age, jobname: jobname, skills: characterSkills, color: selectedColor) {
                                     player = newPlayer
                                     print("Player created successfully")
                                     isNavigationActive = true  // Trigger navigation
